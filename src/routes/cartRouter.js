@@ -2,6 +2,10 @@ import { Router } from "express";
 
 const router = Router();
 
+router.get("/", (req, res) => {
+  res.json({ message: "¡Router de carritos funcionando!" });
+});
+
 router.post("/", async (req, res) => {
   try {
     const cartManager = req.cartManager;

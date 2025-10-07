@@ -6,6 +6,7 @@ import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartRouter from "./routes/cartRouter.js";
 import ProductManager from "./productManager.js";
+import path from "path";
 
 const app = express();
 const server = http.createServer(app);
@@ -14,9 +15,10 @@ const io = new Server(server);
 const messages = [];
 const productManager = new ProductManager();
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+// MIDDLEWARES - ORDEN CORRECTO
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 // WebSockets
 io.on("connection", (socket) => {
@@ -35,7 +37,6 @@ io.on("connection", (socket) => {
       const result = await productManager.deleteProduct(productId);
       console.log("Producto eliminado, resultado:", result);
       
-      // Emitir a todos los clientes que se eliminó un producto
       io.emit("product deleted", productId);
       console.log(`Producto ${productId} eliminado exitosamente`);
     } catch (error) {

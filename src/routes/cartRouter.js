@@ -10,20 +10,17 @@ router.get("/", (req, res) => {
   res.json({ message: "¡Router de carritos funcionando!" });
 });
 
-// POST /api/carts/ -> crear carrito
 router.post("/", async (req, res) => {
   const cart = await cartManager.createCart();
   res.status(201).json(cart);
 });
 
-// GET /api/carts/:cid -> productos del carrito
 router.get("/:cid", async (req, res) => {
   const cart = await cartManager.getCartById(req.params.cid);
   if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
   res.json(cart.products);
 });
 
-// POST /api/carts/:cid/product/:pid -> agregar producto (incrementa qty si ya existe)
 router.post("/:cid/product/:pid", async (req, res) => {
   const product = await productManager.getById(req.params.pid);
   if (!product) return res.status(404).json({ error: "Producto no encontrado" });

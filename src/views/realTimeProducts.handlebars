@@ -1,0 +1,53 @@
+<div class="app-dashboard">
+  <h1 class="app-dashboard__title">PRODUCTOS EN TIEMPO REAL</h1>
+
+  {{#with user}}
+    <div class="app-user">
+      <h2 class="app-user__name">{{username}}</h2>
+      {{#if isAdmin}}
+        <h3 class="app-user__admin-msg app-user--admin">Permisos de administrador</h3>
+      {{else}}
+        <h3 class="app-user__admin-msg app-user--noadmin">No tienes permisos de administrador</h3>
+      {{/if}}
+    </div>
+  {{/with}}
+
+  <div class="app-products" id="products-container">
+    {{#each products}}
+      <div class="app-product" id="product-{{this.id}}">
+        <div class="app-product__img-wrap">
+          <img class="app-product__img" src="{{this.thumbnail}}" alt="{{this.title}}">
+        </div>
+        <h2 class="app-product__title">{{this.title}}</h2>
+        <h3 class="app-product__price">Precio: ${{this.price}}</h3>
+        <button class="app-product__delete-btn" data-id="{{this.id}}">Eliminar</button>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  
+  socket.on("product deleted", (productId) => {
+    const productElement = document.getElementById(`product-${productId}`);
+    if (productElement) {
+      productElement.remove();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const productsContainer = document.getElementById('products-container');
+    
+    productsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('app-product__delete-btn')) {
+        const productId = e.target.getAttribute('data-id');
+        
+        if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+          socket.emit('delete product', productId);
+        }
+      }
+    });
+  });
+</script>

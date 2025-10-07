@@ -22,6 +22,10 @@ export default class ProductManager {
     await fs.writeFile(this.path, JSON.stringify(data, null, 2));
   }
 
+  async getProducts() {
+    return await this._readFile();
+  }
+
   async getAll() {
     return await this._readFile();
   }

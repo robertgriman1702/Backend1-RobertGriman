@@ -4,20 +4,17 @@ import ProductManager from "../productManager.js";
 const router = Router();
 const manager = new ProductManager();
 
-// GET /api/products/   -> listar todos
 router.get("/", async (req, res) => {
   const products = await manager.getAll();
   res.json(products);
 });
 
-// GET /api/products/:pid  -> traer uno
 router.get("/:pid", async (req, res) => {
   const product = await manager.getById(req.params.pid);
   if (!product) return res.status(404).json({ error: "Producto no encontrado" });
   res.json(product);
 });
 
-// POST /api/products/  -> crear
 router.post("/", async (req, res) => {
   const body = req.body;
   if (!body.title || !body.price) {
@@ -27,14 +24,12 @@ router.post("/", async (req, res) => {
   res.status(201).json(newProduct);
 });
 
-// PUT /api/products/:pid -> actualizar
 router.put("/:pid", async (req, res) => {
   const updated = await manager.updateProduct(req.params.pid, req.body);
   if (!updated) return res.status(404).json({ error: "Producto no encontrado" });
   res.json(updated);
 });
 
-// DELETE /api/products/:pid -> eliminar
 router.delete("/:pid", async (req, res) => {
   await manager.deleteProduct(req.params.pid);
   res.json({ status: "ok" });

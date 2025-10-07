@@ -1,135 +1,341 @@
-
-body{
-  background-color: rgb(32, 32, 32);
-  color: rgb(233, 233, 233);
-}
-.dashboard {
-  padding: 2rem;
-  max-width: 1000px;
-  margin: auto;
-  font-family: Arial, sans-serif;
+/* Reset y estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dashboard-title {
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Contenedor principal */
+.app-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Título principal */
+.app-dashboard__title {
   text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  font-weight: 300;
 }
 
-.user-info {
-  background-color: #08141a;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.username {
-  font-size: 1.5rem;
-  color: #e8e8e8;
-}
-
-.admin-message {
-  font-size: 1rem;
-  margin-top: 0.5rem;
-}
-
-.admin-true {
-  color: rgb(31, 77, 31);
-}
-
-.admin-false {
-  color: rgb(146, 28, 28);
-}
-
-/* Grid de productos */
-.product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-/* Card de producto */
-.product-card {
-  width: 400px;
-  margin: 20px 0;
-  background-color: #08161e;
-  border: 1px solid #02526b;
+/* Sección de usuario */
+.app-user {
+  background: white;
+  padding: 20px;
   border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.app-user__name {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 1.5em;
 }
 
-.product-image-container{
-  width: 100%;
-  height: 400px;
+.app-user__admin-msg {
+  font-size: 1.1em;
+  font-weight: 500;
 }
 
-.product-image-container .product-image{
-  width: 100%;
+.app-user--admin {
+  color: #27ae60;
 }
 
-.product-title {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.product-price {
-  color: #666;
-  font-size: 1rem;
+.app-user--noadmin {
+  color: #e74c3c;
 }
 
 /* Formulario */
-.form-container {
-  display: flex;
-  justify-content: flex-start;
-  padding: 2rem 0;
-  width: 440px;
+.app-dashboard form {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.product-form {
-  background-color: #08141a;
-  padding: 2rem;
+.app-dashboard input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.app-dashboard input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Botones */
+.app-form__button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.app-form__button:hover {
+  background-color: #2980b9;
+}
+
+/* Grid de productos */
+.app-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* Tarjeta de producto individual */
+.app-product {
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  height: 100%;
+}
+
+.app-product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Contenedor de imagen */
+.app-product__img-wrap {
   width: 100%;
-}
-
-.form-input {
-  margin: 20px 0;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #157b92;
-  background-color: rgb(210, 210, 210);
+  height: 220px;
+  overflow: hidden;
   border-radius: 8px;
-  transition: border-color 0.2s;
+  margin-bottom: 15px;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-input:focus {
-  border-color: #007bff;
-  outline: none;
+.app-product__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
 }
 
-.form-button {
-  padding: 0.8rem 1rem;
-  background-color: #007bff;
+.app-product:hover .app-product__img {
+  transform: scale(1.05);
+}
+
+/* Información del producto */
+.app-product__title {
+  font-size: 1.3em;
+  margin: 10px 0;
+  color: #2c3e50;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.app-product__price {
+  font-size: 1.4em;
+  color: #27ae60;
+  margin: 10px 0;
+  font-weight: 700;
+}
+
+/* Botón de eliminar */
+.app-product__delete-btn {
+  background-color: #e74c3c;
   color: white;
-  font-size: 1rem;
   border: none;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+  margin-top: 10px;
 }
 
-.form-button:hover {
-  background-color: #0056b3;
+.app-product__delete-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Estados de carga y vacío */
+.app-products__empty {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.2em;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  grid-column: 1 / -1;
+}
+
+.app-loading {
+  text-align: center;
+  padding: 40px;
+  color: #3498db;
+  font-size: 1.2em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-dashboard {
+    padding: 15px;
+  }
+  
+  .app-dashboard__title {
+    font-size: 2em;
+  }
+  
+  .app-products {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .app-product__img-wrap {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-dashboard__title {
+    font-size: 1.8em;
+  }
+  
+  .app-products {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .app-dashboard form {
+    padding: 20px;
+  }
+  
+  .app-user {
+    padding: 15px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-product {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Efectos de eliminación */
+.app-product.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Mejoras para el formulario de archivos */
+input[type="file"] {
+  padding: 8px;
+  border: 2px dashed #bdc3c7;
+  background: #f8f9fa;
+}
+
+input[type="file"]:hover {
+  border-color: #3498db;
+  background: #ecf0f1;
+}
+
+/* Estilos para mensajes de estado */
+.app-message {
+  padding: 15px;
+  border-radius: 6px;
+  margin: 15px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.app-message--success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.app-message--error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Navegación */
+.app-nav {
+  background: white;
+  padding: 15px 0;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.app-nav__list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.app-nav__link {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.app-nav__link:hover,
+.app-nav__link--active {
+  background-color: #3498db;
+  color: white;
 }

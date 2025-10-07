@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { v4 as uuidv4 } from "uuid";
 
 const PRODUCTS_FILE = path.resolve("src", "products.json");
 
@@ -37,8 +38,12 @@ export default class ProductManager {
 
   async addProduct(product) {
     const items = await this._readFile();
-    const newId = items.length ? Math.max(...items.map((p) => Number(p.id))) + 1 : 1;
-    const newProduct = { id: newId, status: true, thumbnails: [], ...product };
+    const newProduct = { 
+      id: uuidv4(), 
+      status: true, 
+      thumbnails: [], 
+      ...product 
+    };
     items.push(newProduct);
     await this._writeFile(items);
     return newProduct;

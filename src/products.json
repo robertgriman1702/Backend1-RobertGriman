@@ -1,20 +1,8 @@
 [
   {
-    "id": "cbc8f671-d991-4903-a3e1-c69187d1ad4f",
-    "title": "Combo preescolar",
-    "price": 15.00,
-    "thumbnail": "/img/Captura de pantalla_20-4-2025_235638_www.instagram.com.jpeg"
-  },
-  {
-    "id": "d9914903-cbc8-f671-a3e1-c69187d1ad4f",
-    "title": "Combo Básico",
-    "price": 20.00,
-    "thumbnail": "/img/Captura de pantalla_20-4-2025_235649_www.instagram.com.jpeg"
-  },
-  {
     "id": "a3e1c691-87d1-ad4f-cbc8-f671d9914903",
     "title": "ALMOHADILLA PARA SELLO No. 2 AMIKO",
-    "price": 2.0,
+    "price": 2,
     "thumbnail": "/img/IMG-20250624-WA0036.jpg"
   },
   {
@@ -26,13 +14,13 @@
   {
     "id": "4903a3e1-c691-87d1-ad4f-cbc8f671d991",
     "title": "ARCHIVADORES LOMO ANCHO CARTA/OFICIO OFIMAK",
-    "price": 25.0,
+    "price": 25,
     "thumbnail": "/img/IMG-20250608-WA0117.jpg"
   },
   {
     "id": "c69187d1-ad4f-cbc8-f671-d9914903a3e1",
     "title": "ARCHICOMODOS PLASTICOS OFFICE. BULTO 20 UNID.",
-    "price": 75.0,
+    "price": 75,
     "thumbnail": "/img/IMG-20250608-WA0114.jpg"
   },
   {

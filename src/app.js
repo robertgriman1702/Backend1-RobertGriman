@@ -5,12 +5,14 @@ import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartRouter from "./routes/cartRouter.js";
+import ProductManager from "./productManager.js";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
 const messages = [];
+const productManager = new ProductManager();
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -29,12 +31,15 @@ io.on("connection", (socket) => {
 
   socket.on("delete product", async (productId) => {
     try {
-      const productManager = (await import('./productManager.js')).default;
-      await productManager.deleteProduct(productId);
+      console.log("Intentando eliminar producto:", productId);
+      const result = await productManager.deleteProduct(productId);
+      console.log("Producto eliminado, resultado:", result);
+      
+      // Emitir a todos los clientes que se eliminó un producto
       io.emit("product deleted", productId);
-      console.log(`Producto ${productId} eliminado`);
+      console.log(`Producto ${productId} eliminado exitosamente`);
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error("Error eliminando producto:", error);
     }
   });
 });

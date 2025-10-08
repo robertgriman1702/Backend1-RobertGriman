@@ -1,16 +1,36 @@
 <div class="app-dashboard">
-  <h1 class="app-dashboard__title">PRODUCTOS EN TIEMPO REAL</h1>
+  <h1 class="app-dashboard__title">PANEL DE ADMINISTRACIÓN - PRODUCTOS EN TIEMPO REAL</h1>
 
   {{#with user}}
     <div class="app-user">
       <h2 class="app-user__name">{{username}}</h2>
       {{#if isAdmin}}
-        <h3 class="app-user__admin-msg app-user--admin">Permisos de administrador</h3>
+        <h3 class="app-user__admin-msg app-user--admin">Permisos de administrador activos</h3>
       {{else}}
         <h3 class="app-user__admin-msg app-user--noadmin">No tienes permisos de administrador</h3>
       {{/if}}
     </div>
   {{/with}}
+
+  <div class="app-section">
+    <h2>Agregar Nuevo Producto</h2>
+    <form action="/api/products" method="post" enctype="multipart/form-data" class="app-form">
+      <div class="form-group">
+        <input type="text" name="title" placeholder="Nombre del producto" required>
+      </div>
+      <div class="form-group">
+        <input type="number" name="price" placeholder="Precio del producto" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <input type="file" name="file" accept="image/*">
+      </div>
+      <button type="submit" class="app-form__button">Agregar Producto</button>
+    </form>
+  </div>
+
+  <div class="app-section">
+    <h2>Lista de Productos</h2>
+  </div>
 
   <div class="app-products" id="products-container">
     {{#each products}}
@@ -20,9 +40,13 @@
         </div>
         <h2 class="app-product__title">{{this.title}}</h2>
         <h3 class="app-product__price">Precio: ${{this.price}}</h3>
-        <button class="app-product__delete-btn" data-id="{{this.id}}">Eliminar</button>
+        <button class="app-product__delete-btn" data-id="{{this.id}}">Eliminar Producto</button>
       </div>
     {{/each}}
+  </div>
+
+  <div class="app-section">
+    <p><a href="/">Volver a la página principal</a></p>
   </div>
 </div>
 
@@ -30,24 +54,99 @@
 <script>
   const socket = io();
   
+  console.log("WebSocket conectado para productos en tiempo real");
+
+  // Escuchar evento de producto eliminado
   socket.on("product deleted", (productId) => {
+    console.log("Recibido evento product deleted:", productId);
     const productElement = document.getElementById(`product-${productId}`);
+    
     if (productElement) {
-      productElement.remove();
+      // Agregar animación de eliminación
+      productElement.style.opacity = '0';
+      productElement.style.transform = 'scale(0.8)';
+      
+      setTimeout(() => {
+        productElement.remove();
+        console.log("Producto eliminado del DOM");
+        
+        // Mostrar mensaje de actualización
+        showNotification('Producto eliminado correctamente', 'success');
+      }, 300);
+    } else {
+      console.log("No se encontró el elemento para eliminar");
     }
   });
 
+  // Manejar eliminación de productos
   document.addEventListener('DOMContentLoaded', () => {
     const productsContainer = document.getElementById('products-container');
     
     productsContainer.addEventListener('click', (e) => {
       if (e.target.classList.contains('app-product__delete-btn')) {
         const productId = e.target.getAttribute('data-id');
+        const productTitle = e.target.closest('.app-product').querySelector('.app-product__title').textContent;
         
-        if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+        if (confirm(`¿Estás seguro de que quieres eliminar el producto "${productTitle}"?`)) {
+          console.log("Enviando evento delete product al servidor:", productId);
           socket.emit('delete product', productId);
+          
+          // Mostrar mensaje de procesamiento
+          showNotification('Eliminando producto...', 'info');
         }
       }
     });
+
+    // Manejar envío del formulario
+    const form = document.querySelector('.app-form');
+    form.addEventListener('submit', function(e) {
+      const button = this.querySelector('button[type="submit"]');
+      button.textContent = 'Agregando...';
+      button.disabled = true;
+      
+      setTimeout(() => {
+        button.textContent = 'Agregar Producto';
+        button.disabled = false;
+      }, 2000);
+    });
+  });
+
+  // Función para mostrar notificaciones
+  function showNotification(message, type = 'info') {
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    // Estilos básicos para la notificación
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+      color: white;
+      border-radius: 4px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remover después de 3 segundos
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateX(100px)';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, 3000);
+  }
+
+  // Mostrar notificación de conexión WebSocket
+  socket.on('connect', () => {
+    showNotification('Conectado en tiempo real', 'success');
   });
 </script>

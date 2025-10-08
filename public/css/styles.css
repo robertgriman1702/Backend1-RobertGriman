@@ -339,3 +339,50 @@ input[type="file"]:hover {
   background-color: #3498db;
   color: white;
 }
+
+.app-section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.app-section h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.app-section p {
+  color: #7f8c8d;
+  line-height: 1.5;
+}
+
+.app-form {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.notification {
+  transition: all 0.3s ease;
+}
+
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

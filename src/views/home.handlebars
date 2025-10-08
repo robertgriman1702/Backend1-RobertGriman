@@ -1,63 +1,31 @@
 <div class="app-dashboard">
-  <h1 class="app-dashboard__title">HOME - PRODUCTOS</h1>
+  <h1 class="app-dashboard__title">BIENVENIDO A NUESTRA TIENDA</h1>
 
   {{#with user}}
     <div class="app-user">
-      <h2 class="app-user__name">{{username}}</h2>
-      {{#if isAdmin}}
-        <h3 class="app-user__admin-msg app-user--admin">Permisos de administrador</h3>
-      {{else}}
-        <h3 class="app-user__admin-msg app-user--noadmin">No tienes permisos de administrador</h3>
-      {{/if}}
+      <h2 class="app-user__name">Hola {{username}}!</h2>
+      <p>Bienvenido a nuestra plataforma de productos</p>
     </div>
   {{/with}}
 
-  <div>
-    <h3>Agregar Nuevo Producto</h3>
-    <form action="/api/products" method="post" enctype="multipart/form-data">
-      <input type="text" name="title" placeholder="Nombre del producto" required>
-      <input type="number" name="price" placeholder="Precio del producto" step="0.01" required>
-      <input type="file" name="file" accept="image/*">
-      <button type="submit" class="app-form__button">Agregar Producto</button>
-    </form>
+  <div class="app-section">
+    <h2>Nuestros Productos</h2>
+    <p>Explora nuestra amplia selección de productos disponibles</p>
   </div>
 
-  <div class="app-products" id="products-container">
+  <div class="app-products">
     {{#each products}}
-      <div class="app-product" id="product-{{this.id}}">
+      <div class="app-product">
         <div class="app-product__img-wrap">
           <img class="app-product__img" src="{{this.thumbnail}}" alt="{{this.title}}">
         </div>
         <h2 class="app-product__title">{{this.title}}</h2>
         <h3 class="app-product__price">Precio: ${{this.price}}</h3>
-        <button class="app-product__delete-btn" data-id="{{this.id}}">Eliminar</button>
       </div>
     {{/each}}
   </div>
+
+  <div class="app-section">
+    <p>¿Quieres gestionar productos? <a href="/realtimeproducts">Ir al panel de administración</a></p>
+  </div>
 </div>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
-  
-  socket.on("product deleted", (productId) => {
-    const productElement = document.getElementById(`product-${productId}`);
-    if (productElement) {
-      productElement.remove();
-    }
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const productsContainer = document.getElementById('products-container');
-    
-    productsContainer.addEventListener('click', (e) => {
-      if (e.target.classList.contains('app-product__delete-btn')) {
-        const productId = e.target.getAttribute('data-id');
-        
-        if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
-          socket.emit('delete product', productId);
-        }
-      }
-    });
-  });
-</script>

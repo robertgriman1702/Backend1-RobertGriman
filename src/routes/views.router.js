@@ -6,7 +6,10 @@ const productManager = new ProductManager();
 
 viewsRouter.get("/", async (req, res) => {
   const products = await productManager.getProducts();
-  res.render("home", { products, user: { username: "BenicioDev01", isAdmin: true } });
+  res.render("home", { 
+    products, 
+    user: { username: "BenicioDev01", isAdmin: false } 
+  });
 });
 
 viewsRouter.get("/dashboard", async (req, res) => {

@@ -36,9 +36,15 @@ io.on("connection", (socket) => {
       const result = await productManager.deleteProduct(productId);
       console.log("Producto eliminado, resultado:", result);
       
-      // Emitir a todos los clientes que se eliminó un producto
-      io.emit("product deleted", productId);
-      console.log(`Producto ${productId} eliminado exitosamente`);
+      if (result) {
+        // Emitir a todos los clientes que se eliminó un producto
+        io.emit("product deleted", productId);
+        
+        // Emitir el producto eliminado para la lista de eliminados
+        io.emit("product added to deleted", result.deletedProduct);
+        
+        console.log(`Producto ${productId} eliminado exitosamente`);
+      }
     } catch (error) {
       console.error("Error eliminando producto:", error);
     }

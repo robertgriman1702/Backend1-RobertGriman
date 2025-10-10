@@ -82,8 +82,42 @@ router.put("/:pid", async (req, res) => {
 // DELETE /api/products/:pid -> eliminar
 router.delete("/:pid", async (req, res) => {
   try {
-    await manager.deleteProduct(req.params.pid);
-    res.json({ status: "ok", message: "Producto eliminado correctamente" });
+    const result = await manager.deleteProduct(req.params.pid);
+    if (!result) return res.status(404).json({ error: "Producto no encontrado" });
+    
+    res.json({ 
+      status: "ok", 
+      message: "Producto eliminado correctamente",
+      deletedProduct: result.deletedProduct
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+//RUTAS PARA PRODUCTOS ELIMINADOS
+
+// GET /api/products/deleted/list -> listar productos eliminados
+router.get("/deleted/list", async (req, res) => {
+  try {
+    const deletedProducts = await manager.getDeletedProducts();
+    res.json(deletedProducts);
+  } catch (error) {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// POST /api/products/deleted/restore/:pid -> restaurar producto eliminado
+router.post("/deleted/restore/:pid", async (req, res) => {
+  try {
+    const restoredProduct = await manager.restoreProduct(req.params.pid);
+    if (!restoredProduct) return res.status(404).json({ error: "Producto eliminado no encontrado" });
+    
+    res.json({ 
+      status: "ok", 
+      message: "Producto restaurado correctamente",
+      restoredProduct 
+    });
   } catch (error) {
     res.status(500).json({ error: "Error interno del servidor" });
   }

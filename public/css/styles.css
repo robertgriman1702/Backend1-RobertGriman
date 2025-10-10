@@ -386,3 +386,37 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.deleted-product {
+  opacity: 0.7;
+  border-left: 4px solid #e74c3c;
+}
+
+.app-product__meta {
+  font-size: 0.9em;
+  color: #7f8c8d;
+  margin: 10px 0;
+}
+
+.app-product__restore-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.app-product__restore-btn:hover {
+  background-color: #219a52;
+}
+
+.app-empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-size: 1.1em;
+  grid-column: 1 / -1;
+}

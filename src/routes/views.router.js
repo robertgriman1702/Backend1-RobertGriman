@@ -9,7 +9,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString('es-ES');
 };
 
-// Home - Solo lista de productos y bienvenida
+// Home 
 viewsRouter.get("/", async (req, res) => {
   const products = await productManager.getProducts();
   res.render("home", { 
@@ -25,7 +25,7 @@ viewsRouter.get("/dashboard", async (req, res) => {
   res.render("dashboard", { products, user });
 });
 
-// RealTimeProducts - Con formulario y eliminación en tiempo real
+// RealTimeProducts 
 viewsRouter.get("/realtimeproducts", async (req, res) => {
   const products = await productManager.getProducts();
   res.render("realTimeProducts", { 

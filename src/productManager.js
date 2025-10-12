@@ -2,8 +2,9 @@ import fs from "fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
-const PRODUCTS_FILE = path.resolve("src", "products.json");
-const DELETED_PRODUCTS_FILE = path.resolve("src", "deleted-products.json");
+// Resolver rutas absolutas desde la raíz del proyecto (process.cwd())
+const PRODUCTS_FILE = path.resolve(process.cwd(), "src", "products.json");
+const DELETED_PRODUCTS_FILE = path.resolve(process.cwd(), "src", "deleted-products.json");
 
 export default class ProductManager {
   constructor(file = PRODUCTS_FILE) {

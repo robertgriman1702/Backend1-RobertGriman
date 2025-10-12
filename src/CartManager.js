@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-const CARTS_FILE = path.resolve("src", "carts.json");
+const CARTS_FILE = path.resolve(process.cwd(), "src", "carts.json");
 
 export default class CartManager {
   constructor(file = CARTS_FILE) {

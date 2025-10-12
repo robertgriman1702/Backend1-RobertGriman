@@ -1,5 +1,6 @@
 import express from "express";
 import http from "http";
+import path from "path"; // <-- agregado
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js";
@@ -54,7 +55,10 @@ io.on("connection", (socket) => {
 // Handlebars config
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
-app.set("views", "./src/views");
+
+// usar ruta absoluta basada en el working directory del proceso
+const viewsPath = path.resolve(process.cwd(), "src", "views");
+app.set("views", viewsPath);
 
 // Endpoints
 app.use("/", viewsRouter);

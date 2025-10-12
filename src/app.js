@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import path from "path"; // <-- agregado
+import path from "path"; 
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js";

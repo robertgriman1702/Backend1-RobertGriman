@@ -6,14 +6,21 @@ import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartRouter from "./routes/cartRouter.js";
-import ProductManager from "./productManager.js";
+import Product from "./models/product.model.js";
+import connectMongoDB from "./config/db.js";
+import dotenv from "dotenv";
+
+// Cargar variables de entorno
+dotenv.config();
+
+// Conectar a MongoDB
+connectMongoDB();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
 const messages = [];
-const productManager = new ProductManager();
 
 // Middlewares
 app.use(express.json());
@@ -34,17 +41,20 @@ io.on("connection", (socket) => {
   socket.on("delete product", async (productId) => {
     try {
       console.log("Intentando eliminar producto:", productId);
-      const result = await productManager.deleteProduct(productId);
-      console.log("Producto eliminado, resultado:", result);
+      const deletedProduct = await Product.findByIdAndDelete(productId);
       
-      if (result) {
+      if (deletedProduct) {
+        console.log("Producto eliminado:", deletedProduct);
+        
         // Emitir a todos los clientes que se eliminó un producto
         io.emit("product deleted", productId);
         
         // Emitir el producto eliminado para la lista de eliminados
-        io.emit("product added to deleted", result.deletedProduct);
+        io.emit("product added to deleted", deletedProduct);
         
         console.log(`Producto ${productId} eliminado exitosamente`);
+      } else {
+        console.log("Producto no encontrado para eliminar");
       }
     } catch (error) {
       console.error("Error eliminando producto:", error);
@@ -56,7 +66,6 @@ io.on("connection", (socket) => {
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 
-// usar ruta absoluta basada en el working directory del proceso
 const viewsPath = path.resolve(process.cwd(), "src", "views");
 app.set("views", viewsPath);
 
@@ -65,6 +74,6 @@ app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 
-server.listen(8080, () => {
-  console.log("Servidor iniciado correctamente en http://localhost:8080");
+server.listen(process.env.PORT, () => {
+  console.log(`Servidor iniciado correctamente en http://localhost:${process.env.PORT}`);
 });

@@ -22,6 +22,18 @@
         <input type="number" name="price" placeholder="Precio del producto" step="0.01" required>
       </div>
       <div class="form-group">
+        <input type="text" name="code" placeholder="Código del producto" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="description" placeholder="Descripción">
+      </div>
+      <div class="form-group">
+        <input type="number" name="stock" placeholder="Stock" value="0">
+      </div>
+      <div class="form-group">
+        <input type="text" name="category" placeholder="Categoría">
+      </div>
+      <div class="form-group">
         <input type="file" name="file" accept="image/*">
       </div>
       <button type="submit" class="app-form__button">Agregar Producto</button>
@@ -34,13 +46,14 @@
 
   <div class="app-products" id="products-container">
     {{#each products}}
-      <div class="app-product" id="product-{{this.id}}">
+      <div class="app-product" id="product-{{this._id}}">
         <div class="app-product__img-wrap">
           <img class="app-product__img" src="{{this.thumbnail}}" alt="{{this.title}}">
         </div>
         <h2 class="app-product__title">{{this.title}}</h2>
         <h3 class="app-product__price">Precio: ${{this.price}}</h3>
-        <button class="app-product__delete-btn" data-id="{{this.id}}">Eliminar Producto</button>
+        <p class="app-product__code">Código: {{this.code}}</p>
+        <button class="app-product__delete-btn" data-id="{{this._id}}">Eliminar Producto</button>
       </div>
     {{/each}}
   </div>
@@ -48,12 +61,6 @@
   <div class="app-section">
     <p><a href="/">Volver a la página principal</a></p>
   </div>
-</div>
-<div class="app-section">
-  <p>
-    <a href="/deleted-products">Ver productos eliminados</a> | 
-    <a href="/">Volver a la página principal</a>
-  </p>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
